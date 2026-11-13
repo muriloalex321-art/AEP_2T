@@ -170,9 +170,6 @@ Vídeo de apresentação:
 
 https://youtu.be/eHTGGpONv-M?si=nMPXc1_BId-cgqSD
 
-
-[TABELA 1]
-
 Mensagem / situação | Significado e orientação
 
 Código inválido ou já cadastrado | O código está vazio ou já foi utilizado. Informe outro código.
