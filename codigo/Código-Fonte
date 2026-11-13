@@ -1,0 +1,401 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX_ACOES 100
+#define TAM 100
+
+typedef struct {
+    char codigo[TAM];
+    char escola[TAM];
+    char tema[TAM];
+    char data[TAM];
+    char publico[TAM];
+    char responsavel[TAM];
+    int quantidadePrevista;
+    int quantidadeEfetiva;
+    char situacao[20];
+} Acao;
+
+Acao acoes[MAX_ACOES];
+int quantidade = 0;
+
+// Lê texto com segurança
+void lerTexto(char *destino, int tamanho) {
+    fgets(destino, tamanho, stdin);
+    destino[strcspn(destino, "\n")] = '\0';
+}
+
+// Lê número inteiro
+int lerInteiro() {
+    char entrada[TAM];
+    char *fim;
+    long valor;
+
+    while (1) {
+        lerTexto(entrada, TAM);
+        valor = strtol(entrada, &fim, 10);
+
+        if (entrada[0] != '\0' && *fim == '\0') {
+            return (int)valor;
+        }
+
+        printf("Digite um numero valido: ");
+    }
+}
+
+// Compara textos ignorando maiúsculas e minúsculas
+int compararTexto(char *a, char *b) {
+    while (*a && *b) {
+        if (tolower((unsigned char)*a) !=
+            tolower((unsigned char)*b)) {
+            return 0;
+        }
+        a++;
+        b++;
+    }
+    return *b == '\0';
+}
+
+// Verifica se um texto contém outro
+int contemTexto(char *texto, char *termo) {
+    char copia[TAM];
+    char busca[TAM];
+
+    snprintf(copia, TAM, "%s", texto);
+    snprintf(busca, TAM, "%s", termo);
+
+    for (int i = 0; copia[i]; i++)
+        copia[i] = tolower((unsigned char)copia[i]);
+
+    for (int i = 0; busca[i]; i++)
+        busca[i] = tolower((unsigned char)busca[i]);
+
+    return strstr(copia, busca) != NULL;
+}
+
+// Localiza ação pelo código
+int localizarAcao(char *codigo) {
+    for (int i = 0; i < quantidade; i++) {
+        if (strcmp(acoes[i].codigo, codigo) == 0) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+// Valida situação
+int situacaoValida(char *situacao) {
+    return compararTexto(situacao, "planejada") ||
+           compararTexto(situacao, "realizada") ||
+           compararTexto(situacao, "cancelada");
+}
+
+// 1 - CADASTRAR AÇÃO
+void cadastrarAcao() {
+    if (quantidade >= MAX_ACOES) {
+        printf("\nLimite de armazenamento atingido!\n");
+        return;
+    }
+
+    Acao nova;
+
+    printf("\n===== CADASTRO DE ACAO =====\n");
+
+    do {
+        printf("Codigo: ");
+        lerTexto(nova.codigo, TAM);
+
+        if (strlen(nova.codigo) == 0 ||
+            localizarAcao(nova.codigo) != -1) {
+            printf("Codigo invalido ou ja cadastrado!\n");
+        }
+
+    } while (strlen(nova.codigo) == 0 ||
+             localizarAcao(nova.codigo) != -1);
+
+    printf("Escola: ");
+    lerTexto(nova.escola, TAM);
+
+    printf("Tema: ");
+    lerTexto(nova.tema, TAM);
+
+    printf("Data prevista: ");
+    lerTexto(nova.data, TAM);
+
+    printf("Publico-alvo: ");
+    lerTexto(nova.publico, TAM);
+
+    printf("Responsavel: ");
+    lerTexto(nova.responsavel, TAM);
+
+    do {
+        printf("Quantidade prevista: ");
+        nova.quantidadePrevista = lerInteiro();
+
+        if (nova.quantidadePrevista < 0) {
+            printf("Quantidade nao pode ser negativa!\n");
+        }
+
+    } while (nova.quantidadePrevista < 0);
+
+    do {
+        printf("Situacao (planejada, realizada ou cancelada): ");
+        lerTexto(nova.situacao, 20);
+
+        if (!situacaoValida(nova.situacao)) {
+            printf("Situacao invalida!\n");
+        }
+
+    } while (!situacaoValida(nova.situacao));
+
+    if (compararTexto(nova.situacao, "realizada")) {
+        do {
+            printf("Quantidade efetiva de participantes: ");
+            nova.quantidadeEfetiva = lerInteiro();
+
+            if (nova.quantidadeEfetiva < 0) {
+                printf("Quantidade invalida!\n");
+            }
+
+        } while (nova.quantidadeEfetiva < 0);
+    } else {
+        nova.quantidadeEfetiva = 0;
+    }
+
+    acoes[quantidade] = nova;
+    quantidade++;
+
+    printf("\nCadastro realizado com sucesso!\n");
+}
+
+// 2 - LISTAR AÇÕES
+void listarAcoes() {
+    printf("\n===== LISTA DE ACOES =====\n");
+
+    if (quantidade == 0) {
+        printf("Nenhuma acao cadastrada.\n");
+        return;
+    }
+
+    for (int i = 0; i < quantidade; i++) {
+        printf("\nCodigo: %s\n", acoes[i].codigo);
+        printf("Escola: %s\n", acoes[i].escola);
+        printf("Tema: %s\n", acoes[i].tema);
+        printf("Data: %s\n", acoes[i].data);
+        printf("Publico-alvo: %s\n", acoes[i].publico);
+        printf("Responsavel: %s\n", acoes[i].responsavel);
+        printf("Quantidade prevista: %d\n",
+               acoes[i].quantidadePrevista);
+        printf("Situacao: %s\n", acoes[i].situacao);
+
+        if (compararTexto(acoes[i].situacao, "realizada")) {
+            printf("Participantes efetivos: %d\n",
+                   acoes[i].quantidadeEfetiva);
+        }
+
+        printf("--------------------------\n");
+    }
+}
+
+// 3 - PESQUISAR AÇÕES
+void pesquisarAcoes() {
+    int opcao;
+    char termo[TAM];
+    int encontrado = 0;
+
+    printf("\n===== PESQUISAR ACOES =====\n");
+    printf("1 - Pesquisar por codigo\n");
+    printf("2 - Pesquisar por escola\n");
+    printf("3 - Pesquisar por tema\n");
+    printf("Escolha: ");
+
+    opcao = lerInteiro();
+
+    if (opcao < 1 || opcao > 3) {
+        printf("Opcao invalida!\n");
+        return;
+    }
+
+    printf("Digite o termo de pesquisa: ");
+    lerTexto(termo, TAM);
+
+    for (int i = 0; i < quantidade; i++) {
+        int corresponde = 0;
+
+        if (opcao == 1) {
+            corresponde = strcmp(acoes[i].codigo, termo) == 0;
+        } else if (opcao == 2) {
+            corresponde = contemTexto(acoes[i].escola, termo);
+        } else {
+            corresponde = contemTexto(acoes[i].tema, termo);
+        }
+
+        if (corresponde) {
+            printf("\nCodigo: %s\n", acoes[i].codigo);
+            printf("Escola: %s\n", acoes[i].escola);
+            printf("Tema: %s\n", acoes[i].tema);
+            printf("Data: %s\n", acoes[i].data);
+            printf("Situacao: %s\n", acoes[i].situacao);
+            encontrado = 1;
+        }
+    }
+
+    if (!encontrado) {
+        printf("\nNenhuma acao encontrada.\n");
+    }
+}
+
+// 4 - ATUALIZAR SITUAÇÃO
+void atualizarAcao() {
+    char codigo[TAM];
+    char novaSituacao[20];
+    int indice;
+
+    printf("\n===== ATUALIZAR ACAO =====\n");
+
+    printf("Informe o codigo da acao: ");
+    lerTexto(codigo, TAM);
+
+    indice = localizarAcao(codigo);
+
+    if (indice == -1) {
+        printf("Registro inexistente!\n");
+        return;
+    }
+
+    printf("Situacao atual: %s\n", acoes[indice].situacao);
+
+    do {
+        printf("Nova situacao (planejada, realizada ou cancelada): ");
+        lerTexto(novaSituacao, 20);
+
+        if (!situacaoValida(novaSituacao)) {
+            printf("Opcao invalida!\n");
+        }
+
+    } while (!situacaoValida(novaSituacao));
+
+    if (compararTexto(novaSituacao, "realizada")) {
+        int efetiva;
+
+        do {
+            printf("Quantidade efetiva de participantes: ");
+            efetiva = lerInteiro();
+
+            if (efetiva < 0) {
+                printf("Quantidade invalida!\n");
+            }
+
+        } while (efetiva < 0);
+
+        acoes[indice].quantidadeEfetiva = efetiva;
+    }
+
+    strcpy(acoes[indice].situacao, novaSituacao);
+
+    printf("\nSituacao atualizada com sucesso!\n");
+}
+
+// 5 - GERAR RESUMO
+void gerarResumo() {
+    int planejadas = 0;
+    int realizadas = 0;
+    int canceladas = 0;
+
+    int totalPrevisto = 0;
+    int totalEfetivo = 0;
+
+    float percentual = 0;
+
+    printf("\n===== RESUMO GERAL =====\n");
+
+    for (int i = 0; i < quantidade; i++) {
+
+        totalPrevisto += acoes[i].quantidadePrevista;
+
+        if (compararTexto(acoes[i].situacao, "planejada")) {
+            planejadas++;
+        }
+
+        else if (compararTexto(acoes[i].situacao, "realizada")) {
+            realizadas++;
+            totalEfetivo += acoes[i].quantidadeEfetiva;
+        }
+
+        else if (compararTexto(acoes[i].situacao, "cancelada")) {
+            canceladas++;
+        }
+    }
+
+    if (totalPrevisto > 0) {
+        percentual = ((float)totalEfetivo / totalPrevisto) * 100;
+    }
+
+    printf("Total de acoes planejadas: %d\n", planejadas);
+    printf("Total de acoes realizadas: %d\n", realizadas);
+    printf("Total de acoes canceladas: %d\n", canceladas);
+
+    printf("Total de participantes previstos: %d\n", totalPrevisto);
+    printf("Total de participantes efetivos: %d\n", totalEfetivo);
+
+    printf("Percentual de participacao: %.2f%%\n", percentual);
+}
+
+// MENU PRINCIPAL
+int main() {
+
+    int opcao;
+
+    do {
+        printf("\n================================\n");
+        printf("       SISTEMA DE ACOES\n");
+        printf("================================\n");
+
+        printf("1 - Cadastrar acao\n");
+        printf("2 - Listar acoes\n");
+        printf("3 - Pesquisar acoes\n");
+        printf("4 - Atualizar situacao\n");
+        printf("5 - Gerar resumo\n");
+        printf("0 - Sair\n");
+
+        printf("================================\n");
+        printf("Escolha uma opcao: ");
+
+        opcao = lerInteiro();
+
+        switch (opcao) {
+
+            case 1:
+                cadastrarAcao();
+                break;
+
+            case 2:
+                listarAcoes();
+                break;
+
+            case 3:
+                pesquisarAcoes();
+                break;
+
+            case 4:
+                atualizarAcao();
+                break;
+
+            case 5:
+                gerarResumo();
+                break;
+
+            case 0:
+                printf("\nSistema encerrado!\n");
+                break;
+
+            default:
+                printf("\nOpcao invalida!\n");
+        }
+
+    } while (opcao != 0);
+
+    return 0;
+}
