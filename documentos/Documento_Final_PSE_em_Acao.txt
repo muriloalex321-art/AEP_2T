@@ -221,8 +221,6 @@ Projeto | PSE em Ação – Sistema de Planejamento e Acompanhamento de Ações 
 
 Integrantes | Murilo Alexandre de Assis – RA 26010057-2 / Arthur Mingroni Pacheco – RA 26006047-2 / Joelson Batista dos Santos – RA 26012817-2
 
-Professor(a) | ____________________________________________
-
 
 [TABELA 2]
 
@@ -365,13 +363,3 @@ CT12 | Limite de armazenamento | Cadastrar 100 ações e tentar cadastrar a 101�
 
 CT13 | Encerramento | Selecionar a opção 0. | Exibir mensagem de encerramento. | Aprovado
 
-
-[TABELA 8]
-
-Data | Responsável | Testes executados | Observações / evidências
-
-____/____/______ | ________________________ | ________________ | ________________________________________
-
-____/____/______ | ________________________ | ________________ | ________________________________________
-
-____/____/______ | ________________________ | ________________ | ________________________________________
