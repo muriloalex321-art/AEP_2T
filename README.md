@@ -1,5 +1,5 @@
 # PSE-em-Acao
-AEP 2 semestre, 1° Bimestre 
+AEP 2 semestre.
 ## Sistema de Planejamento e Acompanhamento de Ações de Saúde na Escola
 
 Projeto desenvolvido como parte da Atividade de Estudo Programada (AEP) do curso de Análise e Desenvolvimento de Sistemas da Universidade Cesumar – UNICESUMAR.
