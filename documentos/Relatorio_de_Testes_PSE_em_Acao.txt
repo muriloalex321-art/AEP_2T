@@ -1,0 +1,22 @@
+RELATÓRIO DE TESTES — PSE EM AÇÃO
+Compilador: GCC
+Comando: gcc -std=c11 -Wall -Wextra -pedantic sistema.c -o sistema
+Resultado da compilação: APROVADA (sem erros ou avisos)
+Execução automatizada: 13 testes aprovados; 0 reprovados.
+
+CT01 — Listagem sem registros: APROVADO
+CT02 — Cadastro e listagem válida: APROVADO
+CT03 — Código vazio e duplicado: APROVADO
+CT04 — Quantidade negativa e situação inválida: APROVADO
+CT05 — Cadastro realizada e cálculo do resumo (50 previstos, 45 efetivos, 90,00%): APROVADO
+CT06 — Pesquisa por código, escola e tema (incluindo busca textual sem diferenciar maiúsculas/minúsculas): APROVADO
+CT07 — Pesquisa sem resultado e critério inválido: APROVADO
+CT08 — Atualização de registro inexistente e atualização válida: APROVADO
+CT09 — Validações durante atualização: APROVADO
+CT10 — Opção inválida no menu: APROVADO
+CT11 — Resumo com total previsto igual a zero: APROVADO
+CT12 — Limite de 100 registros e bloqueio do 101º: APROVADO
+CT13 — Encerramento: APROVADO
+
+OBSERVAÇÃO DE RASTREABILIDADE:
+Os testes foram executados sobre uma reprodução da lógica do código-fonte colado pelo usuário nesta conversa. O repositório remoto foi consultado, mas o arquivo-fonte não pôde ser baixado nesta sessão. Antes de declarar que a versão publicada no GitHub foi testada, compare o arquivo .c do repositório com o código utilizado no teste e, se houver diferenças, repita os testes na versão publicada.

@@ -1,0 +1,377 @@
+UNIVERSIDADE CESUMAR – UNICESUMAR
+
+CURSO DE ANÁLISE E DESENVOLVIMENTO DE SISTEMAS
+
+MURILO ALEXANDRE DE ASSIS – RA 26010057-2
+ARTHUR MINGRONI PACHECO – RA 26006047-2
+JOELSON BATISTA DOS SANTOS – RA 26012817-2
+
+PSE EM AÇÃO
+
+Sistema de Planejamento e Acompanhamento de Ações de Saúde na Escola
+DOCUMENTO FINAL DO PROJETO
+
+Maringá – PR
+2026
+
+IDENTIFICAÇÃO DO PROJETO
+
+SUMÁRIO
+
+1. Introdução
+
+2. Objetivos
+
+3. Descrição geral e tecnologias
+
+4. Requisitos do sistema
+
+5. Artefatos e estrutura lógica
+
+6. Casos de uso
+
+7. Plano e registro de testes
+
+8. Análise das validações e limitações técnicas
+
+9. Considerações finais
+
+10. Repositório e vídeo
+
+Referências
+
+1. INTRODUÇÃO
+
+O PSE em Ação é um sistema desenvolvido em linguagem C como parte da Atividade de Estudo Programada (AEP) do curso de Análise e Desenvolvimento de Sistemas da Universidade Cesumar – UNICESUMAR. A aplicação foi proposta para apoiar a organização de ações coletivas relacionadas ao Programa Saúde na Escola (PSE), reunindo informações de planejamento, acompanhamento e participação.
+
+O sistema funciona por meio de um terminal e permite cadastrar, listar, pesquisar e atualizar ações, além de gerar um resumo quantitativo. Este documento reúne a descrição do projeto, requisitos, artefatos lógicos, casos de uso, plano de testes, limitações e considerações finais. O manual detalhado de instalação e operação é apresentado em documento separado.
+
+2. OBJETIVOS
+
+2.1 Objetivo geral
+
+Desenvolver uma aplicação em linguagem C para auxiliar no planejamento, registro e acompanhamento de ações coletivas de saúde realizadas no contexto escolar.
+
+2.2 Objetivos específicos
+
+Registrar ações com identificação, escola, tema, data prevista, público-alvo, responsável e quantidades de participantes.
+
+Permitir consulta geral e pesquisa por código, escola ou tema.
+
+Atualizar a situação de uma ação e registrar a quantidade efetiva quando realizada.
+
+Apresentar indicadores quantitativos sobre as ações cadastradas.
+
+Validar entradas para reduzir erros de preenchimento.
+
+3. DESCRIÇÃO GERAL E TECNOLOGIAS
+
+O sistema apresenta um menu textual com cinco funcionalidades e uma opção de encerramento. Os registros são representados por uma estrutura Acao e armazenados em um vetor global com capacidade máxima de 100 elementos. A variável quantidade controla o número de ações cadastradas durante a execução.
+
+4. REQUISITOS DO SISTEMA
+
+4.1 Requisitos funcionais
+
+4.2 Requisitos não funcionais
+
+Executar em computador com compilador C compatível.
+
+Apresentar interface textual simples e mensagens compreensíveis.
+
+Validar dados de entrada e respeitar o limite de 100 registros.
+
+Utilizar apenas dados fictícios e informações coletivas, sem cadastro individual de estudantes ou dados clínicos sensíveis.
+
+5. ARTEFATOS E ESTRUTURA LÓGICA
+
+5.1 Modelo de dados
+
+A estrutura Acao contém os campos codigo, escola, tema, data, publico, responsavel, quantidadePrevista, quantidadeEfetiva e situacao. Os campos textuais são armazenados em vetores de caracteres; as quantidades são inteiros. O vetor acoes[MAX_ACOES] armazena até 100 registros.
+
+5.2 Organização das funções
+
+5.3 Fluxograma geral
+
+O fluxo inicia com a preparação do vetor e do contador. Em seguida, o programa apresenta o menu, recebe a opção, executa a função correspondente e retorna ao menu. A opção 0 encerra a aplicação.
+
+Figura 1 – Fluxograma simplificado do fluxo principal do sistema.
+
+5.4 Pseudocódigos principais
+
+Cadastro
+
+INÍCIO
+  Verificar se o limite de 100 registros foi atingido
+  Ler código; repetir enquanto vazio ou duplicado
+  Ler escola, tema, data, público-alvo e responsável
+  Ler quantidade prevista; repetir enquanto negativa
+  Ler situação; repetir enquanto inválida
+  Se situação = realizada, ler quantidade efetiva não negativa
+  Caso contrário, definir quantidade efetiva como zero
+  Armazenar estrutura no vetor e incrementar contador
+FIM
+
+Pesquisa
+
+INÍCIO
+  Exibir critérios: código, escola ou tema
+  Ler critério e termo
+  Percorrer registros cadastrados
+  Comparar código exatamente ou procurar trecho em escola/tema
+  Exibir registros correspondentes
+  Se nenhum registro corresponder, informar ausência de resultados
+FIM
+
+Atualização
+
+INÍCIO
+  Ler código e localizar ação
+  Se não encontrada, informar e retornar
+  Exibir situação atual e ler nova situação válida
+  Se nova situação = realizada, ler quantidade efetiva não negativa
+  Atualizar situação e informar conclusão
+FIM
+
+Resumo
+
+INÍCIO
+  Zerar contadores e somatórios
+  Percorrer ações e somar quantidade prevista
+  Contabilizar situação de cada ação
+  Somar quantidade efetiva apenas das ações realizadas
+  Se total previsto > 0, calcular efetivo / previsto * 100
+  Caso contrário, percentual = 0
+  Exibir indicadores
+FIM
+
+6. CASOS DE USO
+
+Ator principal: usuário do sistema. Pré-condição: aplicação iniciada e menu principal disponível.
+
+7. PLANO E REGISTRO DE TESTES
+
+Os cenários abaixo foram executados automaticamente após a compilação com GCC. Foram concluídos 13 testes, todos aprovados. A execução foi realizada sobre uma reprodução fiel da lógica do código-fonte fornecido nesta conversa; o arquivo não foi baixado diretamente do repositório GitHub nesta sessão. Recomenda-se comparar o arquivo .c do repositório com o código fornecido antes da entrega.
+
+7.1 Exemplo de cálculo
+
+Para uma ação com 50 participantes previstos e 45 efetivos, o percentual será (45 ÷ 50) × 100 = 90,00%. No código atual, o total previsto considera todas as ações cadastradas, independentemente da situação; o total efetivo soma somente as ações cuja situação é realizada. Se o total previsto for zero, o percentual permanece em 0.
+
+7.2 Folha de registro da execução
+
+Critério de avaliação: Aprovado quando o comportamento observado corresponde ao esperado; Reprovado quando diverge; Pendente quando ainda não foi executado. Recomenda-se guardar capturas de tela como evidência dos testes realizados.
+
+Resultado da execução automatizada: 13 testes aprovados, 0 reprovados. Compilação: aprovada com GCC usando as opções -std=c11 -Wall -Wextra -pedantic.
+
+8. ANÁLISE DAS VALIDAÇÕES E LIMITAÇÕES TÉCNICAS
+
+O código implementa validação de código vazio e duplicado, situação permitida, entradas numéricas inteiras, quantidades negativas e capacidade máxima do vetor. A pesquisa por escola e tema não diferencia letras maiúsculas de minúsculas e procura o termo dentro do texto. A pesquisa por código utiliza comparação exata.
+
+Limitações observadas na versão atual:
+
+Os dados existem apenas na memória e são perdidos ao encerrar o programa.
+
+A capacidade é limitada a 100 ações por execução.
+
+Não há autenticação, perfis de acesso ou interface gráfica.
+
+A data é armazenada como texto; o programa não valida o formato ou a validade de calendário.
+
+A função de leitura de inteiro verifica o formato numérico, mas não verifica explicitamente se o valor está dentro da faixa representável por int antes da conversão.
+
+Ao atualizar uma ação realizada para outra situação, o valor de quantidade efetiva permanece armazenado, embora o resumo só some valores de ações atualmente realizadas.
+
+Melhorias futuras possíveis: persistência em arquivo ou banco de dados, validação de data, verificação de faixa numérica, interface gráfica, relatórios exportáveis e controle de acesso. O sistema deve continuar utilizando dados fictícios e coletivos, evitando dados pessoais ou clínicos de estudantes.
+
+9. CONSIDERAÇÕES FINAIS
+
+O desenvolvimento do PSE em Ação permitiu aplicar conceitos fundamentais de programação, como variáveis, estruturas, vetores, funções, laços de repetição, condicionais, manipulação de strings e validação de entradas. As funcionalidades implementadas oferecem uma forma simples de registrar, consultar e acompanhar ações coletivas, além de visualizar indicadores quantitativos.
+
+A solução cumpre seu propósito acadêmico dentro do escopo definido. As limitações de armazenamento temporário, capacidade e interface foram identificadas e registradas para orientar possíveis evoluções. O plano de testes deste documento fornece uma sequência de verificação funcional; a equipe deve preencher os resultados observados após executar cada cenário.
+
+10. REPOSITÓRIO E VÍDEO
+
+Repositório GitHub do projeto:
+
+https://github.com/muriloalex321-art/AEP_2T.git
+
+Vídeo de apresentação:
+
+https://youtu.be/eHTGGpONv-M?si=nMPXc1_BId-cgqSD
+
+Antes da entrega, confirmar que o repositório está acessível ao avaliador, que contém código-fonte, README e instruções de execução, e que o vídeo permite visualização por quem possui o link.
+
+REFERÊNCIAS
+
+MURILO ALEXANDRE DE ASSIS; ARTHUR MINGRONI PACHECO; JOELSON BATISTA DOS SANTOS. PSE em Ação: Sistema de Planejamento e Acompanhamento de Ações de Saúde na Escola. Repositório GitHub. Disponível em: https://github.com/muriloalex321-art/AEP_2T. Acesso em: 12 nov. 2026.
+
+ONLINEGDB. Online C Compiler. Disponível em: https://www.onlinegdb.com/online_c_compiler. Acesso em: 12 nov. 2026.
+
+
+[TABELA 1]
+
+Item | Informação
+
+Instituição | Universidade Cesumar – UNICESUMAR
+
+Curso | Análise e Desenvolvimento de Sistemas
+
+Atividade | Atividade de Estudo Programada (AEP) – 2º semestre de 2026
+
+Projeto | PSE em Ação – Sistema de Planejamento e Acompanhamento de Ações de Saúde na Escola
+
+Integrantes | Murilo Alexandre de Assis – RA 26010057-2 / Arthur Mingroni Pacheco – RA 26006047-2 / Joelson Batista dos Santos – RA 26012817-2
+
+Professor(a) | ____________________________________________
+
+
+[TABELA 2]
+
+Componente | Descrição
+
+Linguagem | C
+
+Bibliotecas | stdio.h, stdlib.h, string.h e ctype.h
+
+Estruturas de programação | struct, vetor, funções, condicionais e laços de repetição
+
+Entrada e saída | Terminal / prompt de comando
+
+Compilador | GCC ou ambiente compatível com C
+
+Armazenamento | Memória durante a execução; sem persistência em arquivos ou banco de dados
+
+
+[TABELA 3]
+
+Código | Descrição
+
+RF01 | Cadastrar uma ação com código, escola, tema, data, público-alvo, responsável e quantidade prevista.
+
+RF02 | Impedir código vazio ou já cadastrado.
+
+RF03 | Validar entradas numéricas inteiras e impedir quantidades negativas.
+
+RF04 | Aceitar as situações planejada, realizada e cancelada.
+
+RF05 | Solicitar quantidade efetiva quando a situação for realizada.
+
+RF06 | Listar todas as ações armazenadas na execução atual.
+
+RF07 | Pesquisar ações por código, escola ou tema.
+
+RF08 | Atualizar a situação de uma ação localizada pelo código.
+
+RF09 | Gerar resumo com totais por situação, participantes previstos, efetivos e percentual.
+
+RF10 | Encerrar o programa quando o usuário selecionar a opção 0.
+
+
+[TABELA 4]
+
+Campo | Tipo | Finalidade
+
+codigo | char[100] | Identificador único da ação durante a execução.
+
+escola | char[100] | Nome da escola relacionada.
+
+tema | char[100] | Tema da ação.
+
+data | char[100] | Data prevista informada pelo usuário.
+
+publico | char[100] | Público-alvo.
+
+responsavel | char[100] | Responsável pela ação.
+
+quantidadePrevista | int | Quantidade de participantes prevista.
+
+quantidadeEfetiva | int | Quantidade efetiva de participantes, quando realizada.
+
+situacao | char[20] | Planejada, realizada ou cancelada.
+
+
+[TABELA 5]
+
+Função | Responsabilidade
+
+lerTexto() | Ler uma linha de texto e remover o caractere de quebra de linha.
+
+lerInteiro() | Ler uma entrada textual e convertê-la em inteiro.
+
+compararTexto() | Comparar textos ignorando diferença entre maiúsculas e minúsculas.
+
+contemTexto() | Verificar se um texto contém um termo de busca, sem diferenciar maiúsculas e minúsculas.
+
+localizarAcao() | Localizar registro pelo código.
+
+situacaoValida() | Verificar se a situação está entre as três opções aceitas.
+
+cadastrarAcao() | Validar e inserir um novo registro.
+
+listarAcoes() | Exibir os registros cadastrados.
+
+pesquisarAcoes() | Pesquisar por código, escola ou tema.
+
+atualizarAcao() | Atualizar situação e, quando aplicável, quantidade efetiva.
+
+gerarResumo() | Calcular totais e percentual de participação.
+
+main() | Controlar menu, chamadas das funções e encerramento.
+
+
+[TABELA 6]
+
+ID / caso de uso | Fluxo principal | Resultado
+
+UC01 – Cadastrar ação | Selecionar opção 1; informar os campos solicitados; corrigir entradas inválidas, se necessário. | Registro inserido no vetor e mensagem de confirmação.
+
+UC02 – Listar ações | Selecionar opção 2. | Exibição de todos os registros ou aviso de lista vazia.
+
+UC03 – Pesquisar ações | Selecionar opção 3; escolher código, escola ou tema; informar termo. | Exibição dos registros correspondentes ou aviso sem resultados.
+
+UC04 – Atualizar situação | Selecionar opção 4; informar código; escolher nova situação; informar participantes efetivos se realizada. | Registro atualizado ou mensagem de inexistência/entrada inválida.
+
+UC05 – Gerar resumo | Selecionar opção 5. | Exibição dos totais e percentual de participação.
+
+UC06 – Encerrar | Selecionar opção 0. | Mensagem de encerramento e finalização.
+
+
+[TABELA 7]
+
+ID | Cenário | Procedimento / entrada | Resultado esperado | Observado
+
+CT01 | Listagem sem registros | Iniciar o programa e selecionar 2 sem cadastrar ações. | Mensagem de lista vazia. | Aprovado
+
+CT02 | Cadastro e listagem válida | Cadastrar A001 com 50 previstos e situação planejada; listar. | Cadastro confirmado e dados exibidos. | Aprovado
+
+CT03 | Código vazio e duplicado | Tentar cadastrar código vazio e repetir A001; depois cadastrar A002. | Rejeitar vazio/duplicado e aceitar A002. | Aprovado
+
+CT04 | Quantidade negativa e situação inválida | Informar -2, depois 10; informar situação inválida e depois planejada. | Rejeitar valores inválidos e concluir cadastro. | Aprovado
+
+CT05 | Cadastro realizada e resumo | Cadastrar ação com 50 previstos e 45 efetivos; gerar resumo. | 1 realizada, 50 previstos, 45 efetivos e 90,00%. | Aprovado
+
+CT06 | Pesquisa por código, escola e tema | Pesquisar código ABC, trecho de escola em caixa alta e trecho do tema. | Encontrar registro nos três critérios. | Aprovado
+
+CT07 | Pesquisa sem resultado e critério inválido | Pesquisar código inexistente e selecionar critério 8. | Informar ausência de resultado e opção inválida. | Aprovado
+
+CT08 | Atualização inexistente e válida | Atualizar código inexistente; depois atualizar ABC para realizada com 45 efetivos. | Informar inexistência e atualizar o registro válido. | Aprovado
+
+CT09 | Validações na atualização | Informar situação inválida, depois realizada; informar -3 e depois 25. | Rejeitar entradas inválidas e concluir atualização. | Aprovado
+
+CT10 | Opção inválida no menu | Informar opção 9 e depois 0. | Exibir opção inválida e encerrar. | Aprovado
+
+CT11 | Resumo com total previsto zero | Cadastrar ação realizada com zero previsto e zero efetivo; gerar resumo. | Percentual apresentado como 0,00%, sem divisão por zero. | Aprovado
+
+CT12 | Limite de armazenamento | Cadastrar 100 ações e tentar cadastrar a 101ª. | Impedir o 101º cadastro e informar limite atingido. | Aprovado
+
+CT13 | Encerramento | Selecionar a opção 0. | Exibir mensagem de encerramento. | Aprovado
+
+
+[TABELA 8]
+
+Data | Responsável | Testes executados | Observações / evidências
+
+____/____/______ | ________________________ | ________________ | ________________________________________
+
+____/____/______ | ________________________ | ________________ | ________________________________________
+
+____/____/______ | ________________________ | ________________ | ________________________________________

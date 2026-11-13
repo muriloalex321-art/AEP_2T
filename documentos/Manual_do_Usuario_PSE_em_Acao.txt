@@ -1,0 +1,188 @@
+UNIVERSIDADE CESUMAR – UNICESUMAR
+
+CURSO DE ANÁLISE E DESENVOLVIMENTO DE SISTEMAS
+
+MURILO ALEXANDRE DE ASSIS – RA 26010057-2
+ARTHUR MINGRONI PACHECO – RA 26006047-2
+JOELSON BATISTA DOS SANTOS – RA 26012817-2
+
+PSE EM AÇÃO
+
+Sistema de Planejamento e Acompanhamento de Ações de Saúde na Escola
+MANUAL DO USUÁRIO
+
+Maringá – PR
+2026
+
+1. APRESENTAÇÃO
+
+Este manual orienta o usuário na instalação, compilação, execução e utilização do PSE em Ação, desenvolvido na linguagem C. O sistema permite cadastrar, listar, pesquisar e atualizar ações coletivas relacionadas ao Programa Saúde na Escola, além de gerar um resumo com informações quantitativas.
+
+2. REQUISITOS PARA UTILIZAÇÃO
+
+Computador com Windows, Linux ou sistema equivalente.
+
+Compilador da linguagem C, como GCC, ou ambiente de desenvolvimento compatível.
+
+Editor de código ou IDE, como Dev-C++, Code::Blocks ou Visual Studio Code.
+
+Código-fonte do projeto, disponível no repositório GitHub.
+
+3. OBTENÇÃO DO PROJETO
+
+Acesse https://github.com/muriloalex321-art/AEP_2T.
+
+Clique no botão Code e escolha Download ZIP.
+
+Extraia o arquivo ZIP para uma pasta do computador.
+
+Abra a pasta do projeto e localize o código-fonte C dentro da pasta correspondente.
+
+O repositório também contém README, arquivos de documentação, fluxogramas e arquivo de identificação dos integrantes. O nome do arquivo-fonte pode variar conforme a versão; utilize o nome real do arquivo ao compilar.
+
+4. COMPILAÇÃO DO PROGRAMA
+
+4.1 Utilizando GCC
+
+Instale o GCC, caso ainda não esteja disponível.
+
+Abra o terminal ou prompt de comando na pasta que contém o arquivo .c.
+
+Execute o comando abaixo, substituindo o nome do arquivo se necessário.
+
+Aguarde a compilação. Se não houver erros, o executável será criado.
+
+gcc pse_em_acao.c -o pse_em_acao
+
+Se o arquivo tiver outro nome, por exemplo sistema.c, utilize gcc sistema.c -o sistema.
+
+4.2 Utilizando OnlineGDB
+
+Acesse https://www.onlinegdb.com/online_c_compiler.
+
+Selecione a linguagem C.
+
+Cole o código-fonte no editor.
+
+Clique em Run e acompanhe a execução no terminal da página.
+
+5. EXECUÇÃO DO PROGRAMA
+
+Após compilar, execute o arquivo gerado. No Windows, utilize pse_em_acao.exe. No Linux, utilize ./pse_em_acao. Caso tenha usado outro nome na compilação, ajuste o nome do executável.
+
+Ao iniciar, será apresentado o menu principal:
+
+================================
+       SISTEMA DE ACOES
+================================
+1 - Cadastrar acao
+2 - Listar acoes
+3 - Pesquisar acoes
+4 - Atualizar situacao
+5 - Gerar resumo
+0 - Sair
+================================
+Escolha uma opcao:
+
+6. UTILIZAÇÃO DO SISTEMA
+
+6.1 Cadastrar ação
+
+Digite 1 no menu principal.
+
+Informe um código não vazio e ainda não utilizado nesta execução.
+
+Preencha escola, tema, data prevista, público-alvo e responsável.
+
+Informe a quantidade prevista, utilizando um número inteiro não negativo.
+
+Informe a situação: planejada, realizada ou cancelada.
+
+Se a situação for realizada, informe também a quantidade efetiva de participantes.
+
+O sistema valida o código, a situação e as quantidades. Se os dados forem aceitos, a ação é armazenada e uma mensagem de confirmação é exibida.
+
+6.2 Listar ações
+
+Digite 2. O sistema apresentará os registros cadastrados, incluindo código, escola, tema, data, público-alvo, responsável, quantidade prevista e situação. Para ações realizadas, também exibirá a quantidade efetiva. Se não houver registros, será apresentada uma mensagem informativa.
+
+6.3 Pesquisar ações
+
+Digite 3.
+
+Escolha o critério: 1 para código, 2 para escola ou 3 para tema.
+
+Digite o termo de pesquisa.
+
+Confira os registros apresentados. Se não houver correspondência, o sistema informará que nenhuma ação foi encontrada.
+
+A pesquisa por código exige correspondência exata. A pesquisa por escola e tema procura o termo dentro do texto e não diferencia letras maiúsculas e minúsculas.
+
+6.4 Atualizar situação
+
+Digite 4.
+
+Informe o código da ação cadastrada.
+
+Confira a situação atual exibida pelo sistema.
+
+Informe a nova situação: planejada, realizada ou cancelada.
+
+Se a nova situação for realizada, informe a quantidade efetiva de participantes.
+
+Se o código não existir, o sistema apresentará a mensagem “Registro inexistente!”. Após a validação, será exibida uma mensagem de confirmação.
+
+6.5 Gerar resumo
+
+Digite 5. O sistema apresenta o número de ações planejadas, realizadas e canceladas, o total de participantes previstos, o total de participantes efetivos e o percentual de participação.
+
+O cálculo utilizado é: percentual = (total de participantes efetivos das ações realizadas ÷ total de participantes previstos de todas as ações cadastradas) × 100. Se o total previsto for zero, o percentual exibido será 0,00%.
+
+6.6 Encerrar o sistema
+
+Digite 0 no menu principal. O sistema exibirá a mensagem “Sistema encerrado!” e finalizará a execução.
+
+7. MENSAGENS DE VALIDAÇÃO E POSSÍVEIS ERROS
+
+8. OBSERVAÇÕES IMPORTANTES
+
+O sistema armazena até 100 ações por execução.
+
+Os registros permanecem disponíveis apenas enquanto o programa estiver aberto.
+
+Ao encerrar o programa, os dados são perdidos, pois esta versão não utiliza banco de dados nem gravação permanente em arquivos.
+
+A data é armazenada como texto; o programa não verifica se a data existe no calendário.
+
+Utilize informações fictícias e coletivas. Não insira dados clínicos ou dados pessoais sensíveis de estudantes.
+
+9. CONSIDERAÇÕES FINAIS
+
+O PSE em Ação oferece recursos básicos para organizar e acompanhar ações coletivas, facilitando o cadastro, a consulta, a atualização e a visualização de indicadores. Este manual descreve os procedimentos necessários para utilizar as funcionalidades implementadas.
+
+10. LINKS DE ACESSO
+
+Repositório GitHub:
+
+https://github.com/muriloalex321-art/AEP_2T.git
+
+Vídeo de apresentação:
+
+https://youtu.be/eHTGGpONv-M?si=nMPXc1_BId-cgqSD
+
+
+[TABELA 1]
+
+Mensagem / situação | Significado e orientação
+
+Código inválido ou já cadastrado | O código está vazio ou já foi utilizado. Informe outro código.
+
+Registro inexistente | O código informado na atualização não corresponde a uma ação cadastrada.
+
+Situação inválida | Informe exatamente uma das situações aceitas: planejada, realizada ou cancelada.
+
+Quantidade não pode ser negativa / Quantidade inválida | Informe um número inteiro igual ou superior a zero.
+
+Limite de armazenamento atingido | O vetor chegou à capacidade máxima de 100 ações. Não é possível cadastrar outro registro nesta execução.
+
+Opção inválida | Informe uma das opções disponíveis no menu.
